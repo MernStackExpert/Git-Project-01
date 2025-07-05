@@ -1,0 +1,149 @@
+/* --- THEME VARIABLES --- */
+body[data-theme="dark"] {
+  --bg-primary: #111827;
+  --bg-secondary: #1f2937;
+  --bg-tertiary: #374151;
+  --text-primary: #f9fafb;
+  --text-secondary: #9ca3af;
+  --border-color: #374151;
+}
+body[data-theme="light"] {
+  --bg-primary: #f9fafb;
+  --bg-secondary: #f3f4f6;
+  --bg-tertiary: #e5e7eb;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --border-color: #d1d5db;
+}
+body[data-theme="solarized"] {
+  --bg-primary: #002b36;
+  --bg-secondary: #073642;
+  --bg-tertiary: #586e75;
+  --text-primary: #93a1a1;
+  --text-secondary: #839496;
+  --border-color: #073642;
+}
+
+:root {
+  --accent: #3b82f6;
+  --danger: #ef4444;
+  --success: #22c55e;
+}
+body {
+  font-family: "Inter", sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* --- Custom Scrollbar --- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* --- Main UI Animations & Transitions --- */
+.note-item {
+  transition: background-color 0.2s ease, transform 0.2s ease,
+    box-shadow 0.2s ease, border-left-color 0.2s ease, padding-left 0.2s ease;
+}
+.note-item:hover {
+  background-color: var(--bg-tertiary);
+  transform: translateX(5px);
+}
+.note-item.active {
+  background-color: var(--accent);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+  border-left-color: #60a5fa !important;
+}
+.note-item.saved {
+  border-left-color: var(--success) !important;
+}
+.note-item.selection-mode {
+  padding-left: 0.5rem;
+}
+.note-item.selected {
+  background-color: #2563eb;
+  border-left-color: #93c5fd !important;
+}
+.note-item.deleting {
+  animation: delete-note-fade-out 0.5s ease-out forwards;
+}
+@keyframes delete-note-fade-out {
+  to {
+    opacity: 0;
+    transform: translateX(-50px);
+    height: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
+  }
+}
+.view-container {
+  animation: view-fade-in 0.5s ease-out;
+}
+@keyframes view-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Modal Animation */
+.modal-bg {
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.modal-box {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.modal-bg.hidden .modal-box {
+  transform: scale(0.9);
+  opacity: 0;
+}
+
+/* Responsive Sidebar */
+#sidebar {
+  transition: transform 0.3s ease-in-out;
+  background-color: var(--bg-secondary);
+  border-color: var(--border-color);
+}
+@media (max-width: 767px) {
+  #sidebar.hidden-mobile {
+    transform: translateX(-100%);
+  }
+}
+
+/* Portfolio Modal Animations */
+.portfolio-content > * {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+@keyframes fade-in-up {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.skill-bar-fill {
+  width: 0%;
+  transition: width 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+#about-me-modal:not(.hidden) .skill-bar-fill {
+  width: var(--skill-level, 0%);
+}
