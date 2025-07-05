@@ -44,7 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
     themeDropdown = getEl("theme-dropdown"),
     aboutMeBtn = getEl("about-me-btn"),
     aboutMeModal = getEl("about-me-modal"),
-    closeAboutModalBtn = getEl("close-about-modal-btn");
+    closeAboutModalBtn = getEl("close-about-modal-btn"),
+    homeAboutBtn = getEl("home-about-btn");
 
   // --- State ---
   let notes = [],
@@ -260,7 +261,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const saveCurrentNote = () => {
     const activeNote = notes.find((note) => note.id === activeNoteId);
     if (activeNote) {
-      activeNote.content = noteContentEl.innerHTML;
+      activeNote.content = activeNote.isPrivate
+        ? encrypt(noteContentEl.innerHTML)
+        : noteContentEl.innerHTML;
       activeNote.timestamp = Date.now();
       activeNote.isSaved = true;
       saveNotes();
@@ -442,6 +445,10 @@ document.addEventListener("DOMContentLoaded", () => {
   closeAboutModalBtn.addEventListener("click", () =>
     aboutMeModal.classList.add("hidden")
   );
+  if (homeAboutBtn)
+    homeAboutBtn.addEventListener("click", () =>
+      aboutMeModal.classList.remove("hidden")
+    );
   window.addEventListener("click", (e) => {
     if (!themeBtn.contains(e.target)) themeDropdown.classList.add("hidden");
   });
